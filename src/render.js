@@ -258,6 +258,17 @@ let buildAppMenu = () => {
                     }
                 },
                 {
+                    label: "About the 2nd Developer & UI Designer...",
+                    click: () => {
+                        dialog.showMessageBox(_window, {
+                            title: "About the UI Designer & Second developer...",
+                            buttons: ["Okay."],
+                            type: "info",
+                            message: `Talented young developer who designed UI and helped while improving the app, is called Viktor. Check put his github account, he has some nice projects: https://github.com/KR1470R`,
+                        });
+                    }
+                },
+                {
                     label: "About the program...",
                     click: () => {
                         dialog.showMessageBox(_window, {
@@ -277,6 +288,18 @@ let buildAppMenu = () => {
                             type: "info",
                             message: `In next update, UI will be improved and some features such as PAUSING and HIDING TO THE TRAY will be added. And some codec bugs which is happening with video/mp4 mime-type will be fixed. And maybe light/dark mode switch, who knows :)`,
                         });
+                    }
+                },
+                {
+                    label: "Open the GitHub repository of this program",
+                    click: () => {
+                        dialog.showMessageBox(_window, {
+                            title: "From developers",
+                            buttons: ["Okay, I will!", "Nah mate."],
+                            type: "info",
+                            message: `Btw, if you wanna use the code, please, don't forget to credit us ;) And for learning purposes, feel free to edit and customize the project! Don't forget to star and watch the project (Please)!`
+                        });
+                        shell.openExternal("https://github.com/AzizbekTheDev/ScreenRekt");
                     }
                 },
                 {
