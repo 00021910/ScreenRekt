@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>ScreenRekt</title>
+    <link rel="stylesheet" href="index.css">
+  </head>
+  <h1 class="shadowTitle">SCREENREKT</h1>
+  <body>
+    <div class="controlsContainer">
+      <h3 id="sourceLabel">CRS*: NOT SELECTED</h3>
+      <small>*CRS - Current Recording Source</small> <br>
+      <label for="audioCheck">
+        Audio Input Enabled? :
+      </label>
+      <input type="checkbox" name="audioCheck" id="audioCheck"> <br>
+      <button onclick="videoSourcesAll()">Select a recording source</button>
+      <button id="recordStart">Start Recording</button>
+      <button id="recordStop" style="display: none;">Stop Recording</button>
+      <p>Current MIME-Type & Codecs combination: <b id="optDisplay"></b></p> 
+      <button onclick="combsToMenu()">Change MIME-Type & codec</button>
+    </div>
+    
+    <div class="videoContainer">
+      <video id="outputStream"></video>
+    </div>
+    
+    <script src="./render.js"></script>
+  </body>
+</html>

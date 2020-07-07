@@ -1,0 +1,80 @@
+html {
+  background: #111;
+}
+
+.shadowTitle {
+  z-index: -1;
+  font-family: fantasy;
+  color: rgba(250, 250, 250, .5);
+  position: absolute;
+  top: -3%;
+  left: 75%;
+  padding: 0;
+}
+
+body {
+  font-family: Assistant, sans-serif;
+  margin-top: 50px;
+  padding: 10px;
+  background: #222;
+  color: white;
+  display: flex;
+  border-radius: 15px;
+}
+
+.videoContainer, .controlsContainer {
+  margin: 10px 5px;
+  padding: 0;
+  width: 50%;
+  height: 100%;
+  display: inline-block;
+}
+
+#sourceLabel {
+  font-family: Pangolin;
+}
+
+#optDisplay {
+  font-family: Pangolin, sans-serif;
+}
+
+button {
+  color: white;
+  background: #222;
+  padding: 7px;
+  margin: 5px;
+  border: 1px white solid;
+  border-radius: 5px;
+  outline: none;
+  font-family: Pangolin, sans-serif;
+}
+
+#recordStart {
+  background: green;
+  color: white;
+  border-color: green;
+}
+
+#recordStop {
+  background: tomato;
+  color: white;
+  border-color: tomato;
+}
+
+#outputStream {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 5px;
+  padding: 0;
+  margin: 0;
+}
+
+@font-face {
+  font-family: Assistant;
+  src: url("./assets/Assistant-Light.ttf");
+}
+
+@font-face {
+  font-family: Pangolin;
+  src: url("./assets/Pangolin-Regular.ttf");
+}
