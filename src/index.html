@@ -4,27 +4,29 @@
     <meta charset="UTF-8">
     <title>ScreenRekt</title>
     <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" type="text/css" href="bootstrap.css">
   </head>
-  <h1 class="shadowTitle">SCREENREKT</h1>
   <body>
     <div class="controlsContainer">
-      <h3 id="sourceLabel">CRS*: NOT SELECTED</h3>
-      <small>*CRS - Current Recording Source</small> <br>
-      <label for="audioCheck">
-        Audio Input Enabled? :
-      </label>
-      <input type="checkbox" name="audioCheck" id="audioCheck"> <br>
-      <button onclick="videoSourcesAll()">Select a recording source</button>
-      <button id="recordStart">Start Recording</button>
-      <button id="recordStop" style="display: none;">Stop Recording</button>
-      <p>Current MIME-Type & Codecs combination: <b id="optDisplay"></b></p> 
-      <button onclick="combsToMenu()">Change MIME-Type & codec</button>
+        <div id="button-row">
+          <button onclick="videoSourcesAll()" id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Select a recording source</button>
+          <button class="btn btn-secondary" id="recordStart">Start Recording</button>
+          <button id="recordStop" class="btn btn-secondary" style="display: none;">Stop Recording</button>        
+          <div class="btn-group" role="group">
+            <div class="dropdown-menu" id="divOtherCombs" aria-labelledby="btnGroupDrop2" style="display: none;">
+              <a class="dropdown-item" href="#" onclick="selectComb(this.innerText)">video/3gpp</a>
+              <a class="dropdown-item" href="#" onclick="selectComb(this.innerText)">video/3gp2</a>
+              <a class="dropdown-item" href="#" onclick="selectComb(this.innerText)">video/webm; codecs=vp8</a>
+              <a class="dropdown-item" href="#" onclick="selectComb(this.innerText)">video/webm; codecs=vp9</a>
+              <a class="dropdown-item" href="#" onclick="selectComb(this.innerText)">video/x-msvideo</a>
+            </div>
+            <button id="btnGroupDrop2" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Change MIME-Type & codec</button>
+          </div>  
+        </div>
     </div>
-    
     <div class="videoContainer">
       <video id="outputStream"></video>
     </div>
-    
-    <script src="./render.js"></script>
+    <script src="./render.js" defer></script>
   </body>
 </html>

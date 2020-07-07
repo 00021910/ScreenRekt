@@ -10,23 +10,13 @@ let otherCombs = [
     /*'video/mp4',*/ "video/3gpp", "video/3gp2", "video/webm; codecs=vp8", "video/webm; codecs=vp9", "video/x-msvideo"
 ];
 
-let combsToMenu = () => {
-    let contextMenu = Menu.buildFromTemplate(
-        otherCombs.map(comb => {
-            return {
-                label: comb,
-                click: () => selectComb(comb)
-            }
-        })
-    );
-    contextMenu.popup();
-}
-
 let selectComb = comb => {
     defaultComb = comb;
     // console.log("MIME & Codecs combination successfully changed!")
-    document.getElementById("optDisplay").innerText = comb;
+    document.getElementById("btnGroupDrop2").innerText = comb;
 }
+
+let audioEnabled = false
 
 selectComb(defaultComb);
 
@@ -52,33 +42,48 @@ let mediaChunks = [];
 
 let startBtn = document.getElementById("recordStart");
 let stopBtn = document.getElementById("recordStop");
+let btnGroupDrop2 = document.getElementById("btnGroupDrop2");
+let otherCombsDiv = document.getElementById("divOtherCombs");
 
-startBtn.onclick = e => {
-    if(typeof mediaRecord == "undefined") {
-        const { dialog, BrowserWindow } = remote;
-        const _window = BrowserWindow.getFocusedWindow();
-        dialog.showMessageBox(_window, {
-            title: "Select CRS First!",
-            buttons: ["Okay"],
-            type: "info",
-            message: `Program couldn't detect CRS (Current Recording Source), select one first!`,
-        });
-        delete dialog;
-    } else {
-        mediaRecord.start();
-        startBtn.style.display = "none";
-        stopBtn.style.display = "inline-block";
+document.onclick = (e) => {
+    switch(e.target){
+        case btnGroupDrop2:
+            if (otherCombsDiv.style.display == "none"){
+                otherCombsDiv.style.display = "block";
+            }else{
+                otherCombsDiv.style.display = "none"
+            };
+            break;
+        case startBtn:
+            if(typeof mediaRecord == "undefined") {
+                const { dialog, BrowserWindow } = remote;
+                const _window = BrowserWindow.getFocusedWindow();
+                dialog.showMessageBox(_window, {
+                title: "Select CRS First!",
+                buttons: ["Okay"],
+                type: "info",
+                message: `Program couldn't detect CRS (Current Recording Source), select one first!`,
+                });
+                delete dialog;
+            } else {
+                mediaRecord.start();
+                startBtn.style.display = "none";
+                stopBtn.style.display = "inline-block";
+            }
+            break;
+        case stopBtn:
+            mediaRecord.stop();
+            stopBtn.style.display = "none";
+            startBtn.style.display = "inline-block";
+            break;
+        default:
+            otherCombsDiv.style.display = "none"
+            break;
     }
 }
 
-stopBtn.onclick = e => {
-    mediaRecord.stop();
-    stopBtn.style.display = "none";
-    startBtn.style.display = "inline-block";
-}
-
 let selectInpSrc = async src => {
-    document.getElementById("sourceLabel").innerHTML = `CRS*: ${src.name} [ID ${src.id}]`;
+    document.getElementById("btnGroupDrop1").innerHTML = `CRS: ${src.name}`;
     const vidConstraints = {
         audio: defaultComb != "video/mp4" ? false : true,
         video: {
@@ -88,12 +93,10 @@ let selectInpSrc = async src => {
             }
         }
     }
-    const audioConstraints = {
-        audio: document.getElementById("audioCheck").checked ? true : false
-    }
+    const audioConstraints = { audio:audioEnabled }
     const videoStream = await navigator.mediaDevices
         .getUserMedia(vidConstraints);
-    const audioStream = document.getElementById("audioCheck").checked ? await navigator.mediaDevices
+    const audioStream = audioEnabled ? await navigator.mediaDevices
         .getUserMedia(audioConstraints) : new MediaStream();
     outStream.srcObject = videoStream;
     outStream.play();
@@ -158,7 +161,7 @@ let handleStop = async() => {
         } else { 
             dialog.showMessageBox(_window, {
                 title: "Video Save Cancelled!",
-                buttons: ["Okay...?"],
+                buttons: ["Okay?"],
                 type: "warning",
                 message: `Video-save got cancelled or some troubleshooting happened!`
             });
@@ -178,6 +181,7 @@ let buildAppMenu = () => {
                 {
                     role: 'reload'
                 },
+                /*
                 {
                     role: 'zoomin'
                 },
@@ -187,6 +191,7 @@ let buildAppMenu = () => {
                 {
                     role: "tooglefullscreen"
                 },
+                */
                 {
                     role: 'toggledevtools'
                 },
@@ -199,7 +204,7 @@ let buildAppMenu = () => {
             ]
         },
         {
-            label: "Functions...",
+            label: "Functions",
             submenu: [
                 {
                     label: "Select an input source as CRS",
@@ -241,6 +246,14 @@ let buildAppMenu = () => {
                     },
                     accelerator: "F8"
                 },
+                {
+                    type:"checkbox",
+                    label:"Audio Input",
+                    click:() => {
+                        audioEnabled = this.checked;
+                    },
+                    accelerator: "F9"
+                },
             ]
         },
         {
@@ -264,7 +277,7 @@ let buildAppMenu = () => {
                             title: "About the UI Designer & Second developer...",
                             buttons: ["Okay."],
                             type: "info",
-                            message: `Talented young developer who designed UI and helped while improving the app, is called Viktor. Check put his github account, he has some nice projects: https://github.com/KR1470R`,
+                            message: `Talented developer who designed UI and helped while improving the app, is called Viktor. Check put his github account, he has some nice projects: https://github.com/KR1470R`,
                         });
                     }
                 },
